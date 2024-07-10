@@ -1,4 +1,4 @@
-## BACKUP AND RESTORE
+# BACKUP AND RESTORE
 
 ```sh
 docker ps

@@ -1,7 +1,7 @@
 # Use PHP 7.3 FPM image from the official Docker Hub
 FROM php:7.3-fpm
 
-# Install system dependencies for Composer and PHP extensions you need
+# Install system dependencies for Composer, Git, and PHP extensions you need
 RUN apt-get update && apt-get install -y \
         git \
         unzip \
@@ -16,8 +16,9 @@ RUN groupadd -g 1000 www && \
     useradd -u 1000 -ms /bin/bash -g www www
 USER www
 
-# Set the working directory inside the container
-WORKDIR /var/www/html
+WORKDIR /var/www/poc-mini-fileserver
+
+RUN composer install --no-interaction --no-dev --prefer-dist
 
 # Copy your PHP project into the working directory
 # COPY --chown=www:www ./poc-mini-fileserver /var/www/html
