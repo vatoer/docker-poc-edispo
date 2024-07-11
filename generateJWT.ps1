@@ -3,17 +3,17 @@ $secretKey = Read-Host -Prompt "Enter your JWT_SECRET_KEY" -AsSecureString
 # Define the parameters
 $username = "eoffice"
 $issuer = "fileserver"
-$audience = "new-edispo"
+$audience = "eoffice"
 # $secretKey = "your_secret_key_here"
 $algorithm = "HS256" # Make sure this matches the algorithm used in PHP
 
 # Define the payload
 $payload = @{
-    iss = $issuer
-    aud = $audience
-    iat = [DateTimeOffset]::Now.ToUnixTimeSeconds()
-    nbf = [DateTimeOffset]::Now.ToUnixTimeSeconds()
-    exp = [DateTimeOffset]::Now.ToUnixTimeSeconds() + 31536000 # 1 year
+    iss  = $issuer
+    aud  = $audience
+    iat  = [DateTimeOffset]::Now.ToUnixTimeSeconds()
+    nbf  = [DateTimeOffset]::Now.ToUnixTimeSeconds()
+    exp  = [DateTimeOffset]::Now.ToUnixTimeSeconds() + 31536000 # 1 year
     data = @{
         username = $username
     }
