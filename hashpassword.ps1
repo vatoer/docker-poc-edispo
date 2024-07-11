@@ -1,3 +1,4 @@
+echo Generate a BCrypt hash from a password in PowerShell
 # Prompt the user to enter a password
 $password = Read-Host -Prompt "Enter your password" -AsSecureString
 
