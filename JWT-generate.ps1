@@ -1,6 +1,6 @@
 # Define the constants
-$issuer = "JWT_ISSUER"
-$audience = "JWT_AUDIENCE"
+$issuer = "filserver"
+$audience = "eoffice"
 $algorithm = "HS256"  # Assuming HS256 as the algorithm
 
 # Function to create the Base64Url-encoded string
