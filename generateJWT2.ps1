@@ -1,6 +1,6 @@
 # Define the constants
-$issuer = "fileserver"
-$audience = "eoffice"
+$issuer = "JWT_ISSUER"
+$audience = "JWT_AUDIENCE"
 $algorithm = "HS256"  # Assuming HS256 as the algorithm
 
 # Function to create the Base64Url-encoded string
@@ -67,10 +67,15 @@ function GenerateToken {
 
 # Prompt the user for input
 $username = Read-Host -Prompt "Enter username"
-# $secretKey = Read-Host -Prompt "Enter JWT_SECRET_KEY"
-$secretKey = Read-Host -Prompt "Enter your JWT_SECRET_KEY" -AsSecureString
-# read -sp "Enter your JWT_SECRET_KEY: " secretKey
+$secureSecretKey = Read-Host -Prompt "Enter JWT_SECRET_KEY" -AsSecureString
+
+# Convert the SecureString to plain text
+$ptr = [System.Runtime.InteropServices.Marshal]::SecureStringToBSTR($secureSecretKey)
+$secretKey = [System.Runtime.InteropServices.Marshal]::PtrToStringBSTR($ptr)
 
 # Generate the token
 $token = GenerateToken -username $username -secretKey $secretKey
 Write-Output $token
+
+# Clean up the SecureString
+[System.Runtime.InteropServices.Marshal]::ZeroFreeBSTR($ptr)
