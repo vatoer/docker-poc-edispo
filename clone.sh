@@ -10,23 +10,27 @@ fi
 
 cd volumes
 
-# Function to clone a git repository if the directory does not exist
-clone_if_not_exist() {
+# Function to clone a git repository if the directory does not exist, or pull if it does
+clone_or_pull() {
     local dir=$1
     local repo=$2
 
     if [ ! -d "$dir" ]; then
-        mkdir "$dir"
-        cd "$dir"
-        echo "Cloning $repo from GitHub..."
+        echo "Directory $dir does not exist. Cloning $repo..."
+        mkdir -p "$dir" && cd "$dir"
         git clone "$repo" .
+        cd ..
+    else
+        echo "Directory $dir exists. Pulling latest changes from $repo..."
+        cd "$dir"
+        git pull
         cd ..
     fi
 }
 
-# Clone repositories if their directories do not exist
-clone_if_not_exist "poc-mini-fileserver" "https://github.com/vatoer/poc-mini-fileserver.git"
-clone_if_not_exist "legacy-edispo" "https://github.com/vatoer/legacy-edispo.git"
-clone_if_not_exist "eoffice-perwakilan" "https://github.com/vatoer/eoffice-perwakilan.git"
+# Clone or pull repositories
+clone_or_pull "poc-mini-fileserver" "https://github.com/vatoer/poc-mini-fileserver.git"
+clone_or_pull "legacy-edispo" "https://github.com/vatoer/legacy-edispo.git"
+clone_or_pull "eoffice" "https://github.com/vatoer/eoffice-perwakilan-docker.git"
 
 echo "Environment preparation complete."

@@ -73,6 +73,8 @@ services:
       - ./volumes/poc-mini-fileserver:/var/www/poc-mini-fileserver
       - ./volumes/legacy-edispo:/var/www/legacy-edispo
       - ./volumes/uploads:/var/www/uploads
+      - ./volumes/logs/log.txt:/var/www/logs/log.txt
+
     depends_on:
       - php-fpm
     networks:
