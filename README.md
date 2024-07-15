@@ -72,18 +72,29 @@ isi JWT_SECRET_KEY sesuai dengan yg digenerate sebelumnya
 ## build docker
 
 ```sh
-docker compose up --build mysql
-docker compose up --build nextjs
+docker compose up --build -d mysql
+docker compose up --build -d php-fpm
+docker compose up --build -d nextjs
+docker compose up --build -d nginx
 ```
 
 akses dengan localhost:3000
 
 ## untuk simulasi pararel dengan edispo
 
-```sh
-docker compose up --build php-fpm
-docker compose up --build nginx
-```
-
 edispo dapat diakses dengan localhost:8001
 fileserver sebagai bridge dapat di akses di localhost:8000
+
+untuk selanjutnya jika sudah pernah build tinggal up saja
+
+```sh
+docker compose up -d mysql
+docker compose up -d php-fpm
+docker compose up -d nextjs
+```
+
+pastikan ketiganya sudah jalan baru up nginx
+
+```sh
+docker compose up -d nginx
+```
