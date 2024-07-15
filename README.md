@@ -72,10 +72,10 @@ isi JWT_SECRET_KEY sesuai dengan yg digenerate sebelumnya
 ## build docker
 
 ```sh
-docker compose up --build -d mysql
-docker compose up --build -d php-fpm
-docker compose up --build -d nextjs
-docker compose up --build -d nginx
+docker compose -f docker-compose.prod.yml --build -d mysql
+docker compose -f docker-compose.prod.yml--build -d php-fpm
+docker compose -f docker-compose.prod.yml --build -d nextjs
+docker compose -f docker-compose.prod.yml --build -d nginx
 ```
 
 akses dengan localhost:3000
@@ -88,13 +88,13 @@ fileserver sebagai bridge dapat di akses di localhost:8000
 untuk selanjutnya jika sudah pernah build tinggal up saja
 
 ```sh
-docker compose up -d mysql
-docker compose up -d php-fpm
-docker compose up -d nextjs
+docker compose -f docker-compose.prod.yml -d mysql
+docker compose -f docker-compose.prod.yml -d php-fpm
+docker compose -f docker-compose.prod.yml -d nextjs
 ```
 
 pastikan ketiganya sudah jalan baru up nginx
 
 ```sh
-docker compose up -d nginx
+docker compose -f docker-compose.prod.yml -d nginx
 ```
