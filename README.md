@@ -50,10 +50,25 @@ set password yang akan digunakan untuk mengisi `USER_SECRET_KEY`
 
 ### generate JWT dengan shell
 
+(mac/linux)
 untuk inisiasi generate JWT bisa juga langsung menggunakan `generateJWT.sh`
 
 ```sh
 ./generateJWT.sh
+```
+
+(poweshell)
+
+- generate
+
+```sh
+./JWT-generate.ps1
+```
+
+- validate
+
+```sh
+./JWT-validate.ps1
 ```
 
 isi JWT_SECRET_KEY sesuai dengan yg digenerate sebelumnya
