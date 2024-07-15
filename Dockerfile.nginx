@@ -6,6 +6,4 @@ FROM nginx:stable
 # Copy the custom nginx configuration
 # COPY ./nginx/default.conf /etc/nginx/conf.d
 
-# Expose port 80
-EXPOSE 80
-EXPOSE 81
+
