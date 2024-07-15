@@ -1,0 +1,82 @@
+version: '3.1'
+
+services:
+  mysql:
+    image: mariadb:10.4.18  # Updated to MariaDB 10.4.18
+    restart: always
+    ports:
+      - "3307:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: mydb
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./mysql/backups:/backups
+      - ./mysql/init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - app-network
+    healthcheck:
+      test: ["CMD-SHELL", "mysql -uroot -proot -e 'SELECT 1'"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      
+  php-fpm:
+    build:
+      context: .
+      dockerfile: Dockerfile.php
+    volumes:
+      - ./volumes/poc-mini-fileserver:/var/www/poc-mini-fileserver
+      - ./volumes/logs/log.txt:/var/www/logs/log.txt
+      - ./volumes/legacy-edispo:/var/www/legacy-edispo
+      - ./.env.fileserver:/var/www/poc-mini-fileserver/.env
+      - ./volumes/uploads/poc-mini-fileserver:/var/www/uploads
+
+    networks:
+      - app-network
+
+  nextjs:
+    build:
+      context: ./volumes/eoffice
+      dockerfile: prod.Dockerfile
+      no_cache: true
+    depends_on:
+      - mysql
+    # Set environment variables based on the .env file
+    env_file:
+      - .env.nextjs
+    volumes:
+      - ./.env.nextjs:/app/.env
+      - ./volumes/uploads/nextjs:/uploads # IT MUST BE THE SAME AS IN THE .env FILE
+    environment:
+      NODE_ENV: development 
+    restart: always
+    # ports:
+    #   - 3000:3000
+    networks:
+      - app-network
+  
+
+  nginx:
+    build:
+      context: .
+      dockerfile: Dockerfile.nginx
+    ports:
+      - "8000:80"
+      - "8001:81"
+      - "3000:3000"
+    volumes:
+      - ./volumes/uploads/nextjs:/uploads
+    depends_on:
+      - php-fpm
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  db_data:
